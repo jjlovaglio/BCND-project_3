@@ -155,20 +155,27 @@ contract SupplyChain {
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Harvested'
   function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
   {
-    // Add the new item as part of Harvest
+    // Add create a new item as part of harvestItem action
     Item memory newItem = new Item(
       {
+      sku = sku, // is this ok? -jjl
       upc = _upc,
       originFarmerID = _originFarmerID,
       originFarmName = _originFarmName,
       originFarmInformation = _originFarmInformation,
       originFarmLatitude = _originFarmLatitude,
       originFarmLongitude = _originFarmLongitude,
-      productNotes = _productNotes
+      productNotes = _productNotes,
+      itemState = defaultState // is this ok? -jjl
       }
     );
-    // Increment sku
+
+    // Add the item to the items mapping
+    items[_upc] = newItem;
+
+    // Increment sku counter
     sku = sku + 1;
+
     // Emit the appropriate event
     emit Harvested(_upc);
   }
@@ -176,14 +183,16 @@ contract SupplyChain {
   // Define a function 'processtItem' that allows a farmer to mark an item 'Processed'
   function processItem(uint _upc) public 
   // Call modifier to check if upc has passed previous supply chain stage
+  harvested(upc) // should it be the global or private _upc ?? -jjl
   
   // Call modifier to verify caller of this function
-  
+  // verifying the caller of this function is the original farmer for the item (originFarmerID) -jjl
+  verifyCaller(items[upc].originFarmerID)  // -jjl
   {
     // Update the appropriate fields
-    
+    items[_upc].itemState = State.Processed // -jjl
     // Emit the appropriate event
-    
+    emit Processed(_upc);
   }
 
   // Define a function 'packItem' that allows a farmer to mark an item 'Packed'
