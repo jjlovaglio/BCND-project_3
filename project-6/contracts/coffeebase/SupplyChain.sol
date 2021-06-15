@@ -299,8 +299,8 @@ contract SupplyChain {
   // Define a function 'fetchItemBufferOne' that fetches the data
   function fetchItemBufferOne(uint _upc) public view returns 
   (
-  uint    itemSKU,
-  uint    itemUPC,
+  uint    sku,
+  uint    upc,
   address ownerID,
   address originFarmerID,
   string  originFarmName,
@@ -310,18 +310,18 @@ contract SupplyChain {
   ) 
   {
   // Assign values to the 8 parameters
-  
+    Item memory item = items[_upc];
     
   return 
   (
-  itemSKU,
-  itemUPC,
-  ownerID,
-  originFarmerID,
-  originFarmName,
-  originFarmInformation,
-  originFarmLatitude,
-  originFarmLongitude
+  item.sku,
+  item.upc,
+  item.ownerID,
+  item.originFarmerID,
+  item.originFarmName,
+  item.originFarmInformation,
+  item.originFarmLatitude,
+  item.originFarmLongitude
   );
   }
 
