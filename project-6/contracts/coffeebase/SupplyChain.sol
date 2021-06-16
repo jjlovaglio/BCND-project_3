@@ -177,7 +177,7 @@ contract SupplyChain {
       productID: _upc+sku,
       productNotes : _productNotes,
       productPrice : items[_upc].productPrice,
-      itemState : defaultState, 
+      itemState : State.Harvested, 
       distributorID : items[_upc].distributorID,
       retailerID : items[_upc].retailerID,
       consumerID : items[_upc].consumerID
@@ -296,6 +296,14 @@ contract SupplyChain {
     
   }
 
+  // Explanation of fetchItemBuffer functions
+
+  //  * The purpose is to return info of the item.
+  //  * You can’t return more than 9 output arguments in a function.
+  //  * that is the reason why there are 2 functions and not just 1
+  //  * fetchItemBufferOne and fetchItemBufferTwo should be public to everyone, no role restrictions
+  
+
   // Define a function 'fetchItemBufferOne' that fetches the data
   function fetchItemBufferOne(uint _upc) public view returns 
   (
@@ -328,31 +336,27 @@ contract SupplyChain {
   // Define a function 'fetchItemBufferTwo' that fetches the data
   function fetchItemBufferTwo(uint _upc) public view returns 
   (
-  uint    itemSKU,
-  uint    itemUPC,
   uint    productID,
   string  productNotes,
   uint    productPrice,
-  uint    itemState,
+  State   itemState,
   address distributorID,
   address retailerID,
   address consumerID
   ) 
   {
     // Assign values to the 9 parameters
-  
+      Item memory item = items[_upc];
     
   return 
   (
-  itemSKU,
-  itemUPC,
-  productID,
-  productNotes,
-  productPrice,
-  itemState,
-  distributorID,
-  retailerID,
-  consumerID
+  item.productID,
+  item.productNotes,
+  item.productPrice,
+  item.itemState,
+  item.distributorID,
+  item.retailerID,
+  item.consumerID
   );
   }
 }
