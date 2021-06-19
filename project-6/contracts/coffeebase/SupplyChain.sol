@@ -253,7 +253,7 @@ contract SupplyChain {
       items[_upc].itemState = State.Sold;
       items[_upc].distributorID = msg.sender;
       items[_upc].ownerID  = items[_upc].originFarmerID;
-    // Transfer money to farmer
+    // Transfer money from distributor to farmer
       items[_upc].distributorID.transfer(items[_upc].productPrice);
     // emit the appropriate event
       emit Sold(_upc);
@@ -293,13 +293,21 @@ contract SupplyChain {
   // Use the above modifiers to check if the item is received
   function purchaseItem(uint _upc) public 
     // Call modifier to check if upc has passed previous supply chain stage
-    
+    received(_upc)
+    // todo: call modifier check if buyer has paid enough -jjl
+    // todo: call modifier to return any excess back to buyer -jjl
     // Access Control List enforced by calling Smart Contract / DApp
+
     {
+
     // Update the appropriate fields - ownerID, consumerID, itemState
-    
+    items[_upc].ownerID = msg.sender;
+    items[_upc].consumerID = msg.sender;
+    items[_upc].itemState = State.Purchased;
+
+    // todo: transfer money from consumer to retailer
     // Emit the appropriate event
-    
+    emit Purchased(_upc);
   }
 
   // Explanation of fetchItemBuffer functions
