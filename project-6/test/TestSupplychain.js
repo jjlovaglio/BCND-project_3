@@ -366,7 +366,7 @@ contract('SupplyChain', function(accounts) {
         
         // Verify the result set:
         
-        assert.equal(resultBufferTwo[0], productID, "Error: Expected productID");
+        assert.equal(resultBufferTwo[0].toNumber(), productID, "Error: Expected productID");
         assert.equal(resultBufferTwo[1], productNotes, "Error: expected productNotes");
         assert.equal(resultBufferTwo[2].toNumber(), productPrice, "Error: expected productPrice")
     })

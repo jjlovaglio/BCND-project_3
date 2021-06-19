@@ -1,6 +1,12 @@
 pragma solidity ^0.4.24;
 // Define a contract 'Supplychain'
-contract SupplyChain {
+
+import "../coffeeaccesscontrol/ConsumerRole.sol";
+import "../coffeeaccesscontrol/DistributorRole.sol";
+import "../coffeeaccesscontrol/FarmerRole.sol";
+import "../coffeeaccesscontrol/RetailerRole.sol";
+
+contract SupplyChain is FarmerRole, ConsumerRole, RetailerRole, DistributorRole {
 
   // Define 'owner'
   address owner;
@@ -161,7 +167,9 @@ contract SupplyChain {
                        string  _originFarmLatitude, 
                        string  _originFarmLongitude, 
                        string  _productNotes
-                       ) public 
+                       ) public
+  // AccessControl -jjl
+  // onlyFarmer() 
   {
     // Add create a new item as part of harvestItem action
     Item memory newItem = Item(
